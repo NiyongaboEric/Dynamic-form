@@ -12,6 +12,7 @@ const dynamicFormView = (props) => {
           onChange={(e) => onHandleInputChange(e, tripIndex)}
           name="originId"
           defaultValue="Choose-origin"
+          required
         >
           <option
             value="Choose-origin"
@@ -27,6 +28,7 @@ const dynamicFormView = (props) => {
           name="destinationId"
           required
           defaultValue="Choose-destination"
+          required
         >
         <option 
           value="Choose-destination"
@@ -44,7 +46,9 @@ const dynamicFormView = (props) => {
         <textarea 
           name="reason"
           required
-          onChange={(e) => onHandleInputChange(e, tripIndex)} />
+          onChange={(e) => onHandleInputChange(e, tripIndex)}
+          required
+        />
       </label> <br />
 
       <label>
@@ -55,7 +59,8 @@ const dynamicFormView = (props) => {
           name="startDate" 
           min="2020-01-01" 
           max="2023-01-01" 
-          onChange={(e) => onHandleInputChange(e, tripIndex)} 
+          onChange={(e) => onHandleInputChange(e, tripIndex)}
+          required
         />
         <input type="date"
           required
@@ -63,10 +68,11 @@ const dynamicFormView = (props) => {
           name="returnDate"
           min="2020-01-01"
           max="2023-01-01"
-          onChange={(e) => onHandleInputChange(e, tripIndex)} 
+          onChange={(e) => onHandleInputChange(e, tripIndex)}
+          required
         />
       </label> <br />
-      <button onClick={() => removeTrip(tripIndex)} className="removeInputButton">Remove trip</button> <br />
+      <button onClick={() => removeTrip(tripIndex)} type="button" className="removeInputButton">Remove trip</button> <br />
     </div>
   );
 };

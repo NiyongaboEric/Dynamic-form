@@ -30,6 +30,6 @@ const fetchCities = () => async (dispatch) => {
       return dispatch(fetchCityResult(type.Fetch_ALL_CITIES_ERROR, { message: ['Network Error'] }));
     }
     return dispatch(fetchCityResult(type.Fetch_ALL_CITIES_ERROR, { message: ['Server Error'] }));
-  } 
+  }
 }
 export default fetchCities;

@@ -5,6 +5,7 @@ import DynamicFormView from '../views/dynamicFormView'
 import '../index.css';
 import dynamicFormAction from '../Redux/actions/dynamicFormAction'
 import ErrorPage from '../component/ErrorPage';
+import SuccessPage from '../component/SuccessPage';
 
 export class DynamicForm extends Component {
   constructor(props){
@@ -19,7 +20,14 @@ export class DynamicForm extends Component {
           reason: '',
         },
       ],
+      showTips: true,
+      showErrors: true,
     }
+  }
+
+  componentDidMount() {
+    const { allCities } = this.props;
+    allCities();
   }
 
   onHandleAddMoreTrip = () => {
@@ -48,11 +56,12 @@ export class DynamicForm extends Component {
   onHandleInputChange = (e, tripIndex) => {
     const requestMoreTrip = [...this.state.requestMoreTrip];
     const { name, value } = e.target;
-    requestMoreTrip[tripIndex][name] = value
+    requestMoreTrip[tripIndex][name] = value;
     this.setState({ requestMoreTrip });
   }
 
-  onHandleSubmit = async () => {
+  onHandleSubmit = async (event) => {
+    event.preventDefault();
     const { sendMultipleInputData } = this.props;
     const { requestMoreTrip } = this.state
     await sendMultipleInputData(requestMoreTrip);
@@ -65,13 +74,22 @@ export class DynamicForm extends Component {
       onHandleInputChange: this.onHandleInputChange,
       cities: this.props.availableCities,
       removeTrip: this.onHandleRemoveMoreTrip,
-      defaultStateValue: this.state.defaultStateValue
+      onHandleHideErrors: this.onHandleHideErrors,
+      onHandleHideTips: this.onHandleHideTips,
+      errors: this.props.errors,
+      defaultStateValue: this.state.defaultStateValue,
+      showErrors: this.state.showErrors
     };
   }
 
-  componentDidMount() {
-    const { allCities } = this.props;
-    allCities();
+  onHandleHideErrors = () => {
+    this.setState((prevState) => ({
+      showErrors: !prevState.showErrors,
+    }));
+  }
+
+  onHandleHideTips = () => {
+    this.setState({ showTips: false });
   }
 
   render() {
@@ -79,13 +97,15 @@ export class DynamicForm extends Component {
     return (
       <>
         <div className="form-container">
-          <ErrorPage />
-          { requestMoreTrip.map((item, index) => (
-            <DynamicFormView key={index} tripAction={this.tripActionsProps(index)} />
-            ))
-          }
-          <button onClick={this.onHandleAddMoreTrip} className="addInputButton">Add trip</button> <br />
-          <button onClick={this.onHandleSubmit} className="submitInputButton">Submit request</button> <br />
+          { this.state.showErrors && <ErrorPage tripAction={this.tripActionsProps(0)} /> }
+          <form onSubmit={this.onHandleSubmit}>
+            { requestMoreTrip.map((item, index) => (
+              <DynamicFormView key={index} tripAction={this.tripActionsProps(index)} />
+              ))
+            }
+            <button onClick={this.onHandleAddMoreTrip} type="button" className="addInputButton">Add trip</button> <br />
+            <input type="submit" className="submitInputButton" value="Submit request" /> <br />
+          </form>
         </div>
       </>
     )
@@ -94,7 +114,8 @@ export class DynamicForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    availableCities: state.fetchCitiesReducer.payload
+    availableCities: state.fetchCitiesReducer.payload,
+    errors: state.dynamicFormAction.error
   };
 };
 

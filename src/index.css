@@ -47,21 +47,46 @@ body {
   background: #4CAF50;
 }
 
-.container-error-page{
-  width: 60%;
-  border: 1px solid #ff000059;
+.form-message-container {
   margin: 1.2rem auto;
   padding: 1rem;
   border-radius: 4px;
-  background-color: #ce11260d;
   letter-spacing: .7px;
+  width: 60%;
 }
-.error-title {
+
+.message-details {
+  padding-top: 0.1rem;
+  font-size: 1.03rem;
+  color: black;
+}
+
+.container-error-page {
+  border: 1px solid #ff000059;
+  background-color: #ce11260d;
+}
+
+.container-success-page {
+  border: 1px solid #2d84227d;
+  background-color: #11ce160d;
+}
+
+.message-title {
   text-align: center;
   color: #293238ad;
+  margin-bottom: 1.5rem;
 }
-.error-details {
-  padding-top: 1rem;
-  font-size: 1.1rem;
+
+.remove-message {
+  border: none;
   color: black;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.remove-message:hover {
+  color: #293238ad;
+} 
+.close {
+  display: none;
 }
